@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'users',
+    'log',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django.contrib.sites',
@@ -148,3 +149,6 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+TIME_ZONE = 'US/Pacific'
+
+DATETIME_FORMAT= ["%Y-%m-%d"]
