@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>User Profile</h1>
+    <div class="avatar">
+        {% load avatar_tags %}
+        {% avatar user size=150 %}
+    </div>
+    <!-- Other profile information goes here -->
+{% endblock %}
