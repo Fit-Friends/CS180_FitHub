@@ -11,3 +11,5 @@ class GoogleLogin(SocialLoginView): # if you want to use Authorization Code Gran
 
 class GoogleLogin(SocialLoginView): # if you want to use Implicit Grant, use this
     adapter_class = GoogleOAuth2Adapter
+
+#get and post functions
