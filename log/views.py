@@ -9,6 +9,7 @@ from .serializers import ExerciseLogGetSerializer, ExerciseLogPostSerializer
 from .models import ExerciseLogModel
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveAPIView
 # Create your views here.
 
 class ExercisePostLogView(APIView):
@@ -41,3 +42,18 @@ class ExerciseGetLogView(APIView):
         log_logs = ExerciseLogModel.objects.filter(user_id=log_id).order_by('date')[:7]
         log_serializer = ExerciseLogGetSerializer(log_logs,many=True)
         return Response(log_serializer.data,status=status.HTTP_200_OK)
+
+#Ex: http://127.0.0.1:8000/getlog/3 -> give json data that has index 3
+class ExerciseGetLogByIndexView(RetrieveAPIView):
+    serializer_class = ExerciseLogGetSerializer
+    queryset = ExerciseLogModel.objects.all()
+    lookup_field = 'index'
+
+    def retrieve(self, request, *args, **kwargs):
+        index = kwargs.get('index')
+        try:
+            log_instance = self.queryset.get(index=index)
+            serializer = self.get_serializer(log_instance)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except ExerciseLogModel.DoesNotExist:
+            return Response({"message": "Log not found"}, status=status.HTTP_404_NOT_FOUND)
