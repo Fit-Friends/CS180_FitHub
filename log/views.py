@@ -10,6 +10,7 @@ from .models import ExerciseLogModel
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.decorators import api_view
 # Create your views here.
 
 class ExercisePostLogView(APIView):
@@ -57,3 +58,22 @@ class ExerciseGetLogByIndexView(RetrieveAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except ExerciseLogModel.DoesNotExist:
             return Response({"message": "Log not found"}, status=status.HTTP_404_NOT_FOUND)
+
+#target log
+@api_view(['GET'])
+def target_log(request, index):
+    try:
+        log_entry = ExerciseLogModel.objects.get(index=index)
+        log_data = {
+            "user_id": log_entry.user_id,
+            "steps": log_entry.steps,
+            "pushups": log_entry.pushups,
+            "situps": log_entry.situps,
+            "squats": log_entry.squats,
+            "lunges": log_entry.lunges,
+            "index": log_entry.index,
+            "date": log_entry.date.strftime("%Y-%m-%d %H:%M:%S")
+        }
+        return Response(log_data, status=status.HTTP_200_OK)
+    except ExerciseLogModel.DoesNotExist:
+        return Response({"message": "Log entry not found"}, status=status.HTTP_404_NOT_FOUND)
