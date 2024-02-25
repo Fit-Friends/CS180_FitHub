@@ -8,5 +8,5 @@ urlpatterns = [
     path('log/', ExercisePostLogView.as_view()),
     # path('log',ExerciseLogView.as_view())
     path('getlog/<int:index>/', ExerciseGetLogByIndexView.as_view(), name='get_log_by_index'),
-    path('log/index/<int:index>/', views.target_log, name='target_log')
+    # path('log/index/<int:index>/', views.target_log, name='target_log')
 ]

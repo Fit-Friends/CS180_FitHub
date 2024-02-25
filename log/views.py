@@ -11,9 +11,20 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.decorators import api_view
+from drf_yasg.utils import swagger_auto_schema
+
 # Create your views here.
 
 class ExercisePostLogView(APIView):
+    @swagger_auto_schema(
+      operation_description="Post the exercise Log, need user_id, steps,pushups,situps,squarts,lunges data in body. ",
+      operation_summary="Post the exercise Log",
+      operation_id='',
+      tags=['PostLog'],
+      manual_parameters=[], #query_params, request_header를 작성하는 부분
+      query_serializer=ExerciseLogPostSerializer,#query_params, request_header 작성(Serializer로 자동 포맷할 경우)
+      responses={}, #request_body도 responses와 같은 방법으로 작성, Mock-up 형태
+      )
     def post(self,request):
         # log_serializer = ExerciseLogSerializer(data=request.data)
         model = ExerciseLogPostSerializer(data={
@@ -33,6 +44,15 @@ class ExercisePostLogView(APIView):
             return Response({"message":"Fail, send proper data type"},status=status.HTTP_400_BAD_REQUEST)
         
 class ExerciseGetLogView(APIView):
+    @swagger_auto_schema(
+      operation_description="Get Recent 7 exercise Log, require only 'userid' for parameter",
+      operation_summary="Get Recent 7 exercise Log",
+      operation_id='',
+      tags=['getlog'],
+      manual_parameters=[], #query_params, request_header를 작성하는 부분
+    #   query_serializer=,#query_params, request_header 작성(Serializer로 자동 포맷할 경우)
+      responses={}, #request_body도 responses와 같은 방법으로 작성, Mock-up 형태
+      )
     def get(self,request,**kwargs):
         # if(request.data['token'] != ):
         #     return Response("Wrong token", status=status.HTTP_400_BAD_REQUEST)
@@ -44,9 +64,12 @@ class ExerciseGetLogView(APIView):
         log_serializer = ExerciseLogGetSerializer(log_logs,many=True)
         return Response(log_serializer.data,status=status.HTTP_200_OK)
 
-#Ex: http://127.0.0.1:8000/getlog/3 -> give json data that has index 3
+
+
 class ExerciseGetLogByIndexView(RetrieveAPIView):
+    #Ex: http://127.0.0.1:8000/getlog/3 -> give json data that has index 3
     serializer_class = ExerciseLogGetSerializer
+    
     queryset = ExerciseLogModel.objects.all()
     lookup_field = 'index'
 
