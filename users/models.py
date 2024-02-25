@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from .managers import UserManager
 # Create your models here.
 class User(AbstractUser):
+    id = models.AutoField(primary_key=True)
     username = None;
     email = models.EmailField(
         _('email adress'),
