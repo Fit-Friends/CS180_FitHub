@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-spaoj0n4gq@)7j@%wu$6a-+zma%t#fduzw6#!ya@p&n1-$$4$9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["seannas.myqnapcloud.com","127.0.0.1","seannas.myqnapcloud.com:7010"]
+ALLOWED_HOSTS = ["seannas.myqnapcloud.com","127.0.0.1"]
 
 
 # Application definition
