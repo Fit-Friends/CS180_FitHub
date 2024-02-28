@@ -7,8 +7,11 @@ class Profile(models.Model):
      username = models.CharField(max_length=100)
      #friends list maybe?
      #profile picture portion
-     profile_pic = models.ImageField(upload_to="images/")
+     #profile_pic = models.ImageField(upload_to="images/")
+     profile_pic = models.ImageField(upload_to="images/", blank=True, null=True) 
      #username is displayed 
      def __str__(self):
          return self.username
 #update profile function maybe
+     
+ 
