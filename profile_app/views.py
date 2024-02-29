@@ -23,19 +23,24 @@ def save_profile_data(request):
 @permission_classes([IsAuthenticated])
 def change_image(request):
     profile = request.user.profile
-
     #code
-
     return Response({"Profile picture successfully updated."})
 
+#change username
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def change_name(request):
     profile = request.user.profile
     
-    #code 
-
-    return Response({"Username successfully updated."})
+    #get username from request
+    new_username = request.data.get('new_username')
+    #validate name
+    serializer = ProfileSerializer(instance=Profile, data={'username' : new_username}, partial=True)
+    if serializer.is_valid(raise_exception=True): 
+    #save
+        serializer.save()
+        return Response({"Username successfully updated."})
+    return Response({"Error saving data"})
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
