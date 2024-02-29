@@ -49,3 +49,15 @@ def return_profile(request):
     serializer = ProfileSerializer(profile)
     return Response(serializer.data)
 
+
+    '''profile = request.user.profile
+    new_image = request.data.get('image') 
+    if new_image:
+        serializer = ProfileSerializer(instance=profile, data={'image': new_image}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"Profile image successfully updated."})
+        else:
+            return Response(serializer.errors, status=400)
+    else:
+        return Response({"error"}, status=400)'''
