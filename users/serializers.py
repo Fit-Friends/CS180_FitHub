@@ -1,4 +1,14 @@
 
+from rest_framework import serializers
+
+from users.models import User
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = User
+            fields = ('id','email')
+
 
 # 회원가입 시리얼라이저
 # class RegisterSerializer(serializers.ModelSerializer):
