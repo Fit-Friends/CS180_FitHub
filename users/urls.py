@@ -9,3 +9,4 @@ urlpatterns = [
     path('',include('dj_rest_auth.urls')),
     path('getid',GetUserIdByEmail.as_view())
 ]
+

@@ -19,10 +19,13 @@ from django.urls import include, path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.conf import settings #imported settings
+from django.conf.urls.static import static #added static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
-    path('',include('log.urls'))
+    path('',include('log.urls')),
+    path('profile_app/', include('profile_app.urls'))
 ]
 
 schema_view = get_schema_view(
@@ -40,3 +43,4 @@ urlpatterns += [
     path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

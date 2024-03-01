@@ -50,8 +50,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'allauth.socialaccount.providers.google',
     'drf_yasg',
-    
-
+    'profile_app',
 ]
 
 MIDDLEWARE = [
@@ -152,6 +151,3 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-TIME_ZONE = 'US/Pacific'
-
-DATETIME_FORMAT= ["%Y-%m-%d"]
