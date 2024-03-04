@@ -40,7 +40,7 @@ export default function MainPage ({ navigation }) {
           />
         </View>
       ))}
-      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+      <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.button}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
