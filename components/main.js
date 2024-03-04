@@ -40,7 +40,7 @@ export default function MainPage ({ navigation }) {
           />
         </View>
       ))}
-      <TouchableOpacity onPress={() => navigation.navigate('Leaderboard')} style={styles.button}>
+      <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
