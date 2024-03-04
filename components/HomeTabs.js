@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Import your own component pages
-import MainPage from './components/main';
-import LeaderboardPage from './components/leaderboard';
-import ProfilePage from './components/profile';
+import MainPage from './main';
+import LeaderboardPage from './leaderboard';
+import ProfilePage from './profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +15,7 @@ function HomeTabs() {
     <Tab.Navigator
       initialRouteName="Main"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63', // You can change the active tint color to whatever you like
+        tabBarActiveTintColor: '#e91e63', 
       }}
     >
       <Tab.Screen

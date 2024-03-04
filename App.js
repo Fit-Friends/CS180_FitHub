@@ -1,25 +1,11 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from './components/login'; 
 import RegisterScreen from './components/register'; 
-import MainPage from './components/main';
-import LeaderboardPage from './components/leaderboard';
-import ProfilePage from './components/profile';
+import HomeTabs from './components/HomeTabs';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-function HomeTabs() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Main" component={MainPage} />
-      <Tab.Screen name="Leaderboard" component={LeaderboardPage} />
-      <Tab.Screen name="Profile" component={ProfilePage} />
-    </Tab.Navigator>
-  );
-}
 
 function App() {
   return (
