@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios';
 
-// Make sure to accept the navigation prop
 export default function LoginScreen({ navigation }) {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = (name, value) => {
     setForm({
@@ -15,19 +17,31 @@ export default function LoginScreen({ navigation }) {
     });
   };
 
-  const handleLogin = () => {
-  // Simulate checking credentials (replace this with your authentication logic)
-    /*const loginSuccessful = form.email === 'user@example.com' && form.password === 'password'; // Example condition
+  const handleLogin = async () => {
+  setIsLoading(true);
+  setError('');
 
-    if (loginSuccessful) {
-      navigation.navigate('Main');
+  try {
+    const response = await axios.post('http://seannas.myqnapcloud.com:7010/login/', {
+        email: form.email,
+        password: form.password,
+    });
+
+    console.log(response.data); 
+    if (response.status === 200) { 
+        console.log('Login successful:', response.data);
+        navigation.navigate('Home'); 
     } else {
-      alert('Login failed. Please check your credentials.');
+        throw new Error('Login failed. Please try again.');
     }
-    */
+} catch (error) {
+    setError(error.response ? error.response.data.message : error.message);
+    console.error('Login error:', error);
+} finally {
+    setIsLoading(false);
+}
+};
 
-    navigation.navigate('Home');
-  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#071525' }}>
