@@ -12,7 +12,7 @@ export default function MainPage ({ navigation }) {
 
   const exercises = [
     { key: 'steps', label: 'Steps' },
-    { key: 'pushups', label: 'pushups' },
+    { key: 'pushUps', label: 'Push-Ups' },
     { key: 'sitUps', label: 'Sit-Ups' },
     { key: 'squats', label: 'Squats' },
     { key: 'lunges', label: 'Lunges' },
@@ -40,7 +40,7 @@ export default function MainPage ({ navigation }) {
           />
         </View>
       ))}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
