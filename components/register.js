@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import axios from 'axios';
 
-// Accept the navigation prop for navigating between screens
 export default function RegisterScreen({ navigation }) {
   const [formData, setFormData] = useState({
+    username: '',
     email: '',
-    password: '',
-    confirmPassword: '',
+    password1: '',
+    password2: '',
   });
+  const [isLoading, setIsLoading] = useState(false); // Added isLoading state
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -16,15 +18,40 @@ export default function RegisterScreen({ navigation }) {
     });
   };
 
-  const handleRegister = () => {
-    // Registration logic
-    if (formData.password !== formData.confirmPassword) {
+  const handleRegister = async () => {
+    if (formData.password1 !== formData.password2) {
       alert('Passwords do not match.');
       return;
     }
-    alert('Registration successful!');
-    // After registration, navigate to the login screen or the main part of your app
-    navigation.navigate('Login');
+
+    setIsLoading(true); 
+
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://seannas.myqnapcloud.com:7010/register/', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          email: formData.email,
+          password1: formData.password1,
+          password2: formData.password2,
+        },
+      });
+        console.log(response.status);
+      if (response.status === 204) {
+        alert('Registration successful!');
+        navigation.navigate('Login'); 
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred during registration. Please try again.');
+    } finally {
+      setIsLoading(false); 
+    }
   };
 
   return (
@@ -42,22 +69,26 @@ export default function RegisterScreen({ navigation }) {
         style={styles.input}
         placeholder="Password"
         placeholderTextColor="#6b7280"
-        value={formData.password}
-        onChangeText={text => handleInputChange('password', text)}
+        value={formData.password1}
+        onChangeText={text => handleInputChange('password1', text)}
         secureTextEntry
       />
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"
         placeholderTextColor="#6b7280"
-        value={formData.confirmPassword}
-        onChangeText={text => handleInputChange('confirmPassword', text)}
+        value={formData.password2}
+        onChangeText={text => handleInputChange('password2', text)}
         secureTextEntry
       />
-      <TouchableOpacity onPress={handleRegister}>
-        <View style={styles.register}>
-          <Text style={styles.registerText}>Sign up</Text>
-        </View>
+      <TouchableOpacity onPress={handleRegister} disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#0000ff" />
+        ) : (
+          <View style={styles.register}>
+            <Text style={styles.registerText}>Sign up</Text>
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );
