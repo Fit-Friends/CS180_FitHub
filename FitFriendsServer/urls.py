@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('',include('log.urls')),
-    path('profile_app/', include('profile_app.urls'))
+    path('', include('profile_app.urls'))
 ]
 
 schema_view = get_schema_view(
