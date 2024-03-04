@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'drf_yasg',
     'profile_app',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Add this
+    'django.middleware.common.CommonMiddleware',  # This should 
 ]
 
 ROOT_URLCONF = 'FitFriendsServer.urls'
@@ -153,3 +158,9 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+CORS_ALLOW_ALL_ORIGINS = True  # For development only, restrict this in production
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'contenttype',
+]
