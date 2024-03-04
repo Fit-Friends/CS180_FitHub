@@ -4,7 +4,7 @@ import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, View } from 
 export default function MainPage ({ navigation }) {
   const [formData, setFormData] = useState({
     steps: '',
-    pushUps: '',
+    pushups: '',
     sitUps: '',
     squats: '',
     lunges: '',
