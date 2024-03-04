@@ -56,32 +56,36 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.welcomeText}>Welcome to FitHub! Let's get you registered.</Text>
+      <Text style={styles.heading}>Email</Text>
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Enter your email"
         placeholderTextColor="#6b7280"
         value={formData.email}
         onChangeText={text => handleInputChange('email', text)}
         keyboardType="email-address"
         autoCapitalize="none"
       />
+      <Text style={styles.heading}>Password</Text>
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Enter your password"
         placeholderTextColor="#6b7280"
         value={formData.password1}
         onChangeText={text => handleInputChange('password1', text)}
         secureTextEntry
       />
+      <Text style={styles.heading}>Confirm Password</Text>
       <TextInput
         style={styles.input}
-        placeholder="Confirm Password"
+        placeholder="Confirm your password"
         placeholderTextColor="#6b7280"
         value={formData.password2}
         onChangeText={text => handleInputChange('password2', text)}
         secureTextEntry
       />
-      <TouchableOpacity onPress={handleRegister} disabled={isLoading}>
+      <TouchableOpacity onPress={handleRegister} disabled={isLoading} style={styles.registerButton}>
         {isLoading ? (
           <ActivityIndicator size="small" color="#0000ff" />
         ) : (
@@ -90,6 +94,14 @@ export default function RegisterScreen({ navigation }) {
           </View>
         )}
       </TouchableOpacity>
+      <TouchableOpacity
+          onPress={() => navigation.navigate('Login')}
+          style={{ marginTop: 'auto' }}>
+          <Text style={styles.signup}>
+            Click Here to{' '}
+            <Text style={{ textDecorationLine: 'underline' }}>Return To Login</Text>
+          </Text>
+        </TouchableOpacity>
     </View>
   );
 }
@@ -100,6 +112,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 24,
     backgroundColor: '#071525',
+  },
+  welcomeText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  heading: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 5,
+    paddingTop: 10,
   },
   input: {
     height: 44,
@@ -113,17 +139,27 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#222',
   },
+  registerButton: {
+    paddingTop: 20,
+  },
   register: {
     backgroundColor: '#075eec',
     borderRadius: 8,
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   registerText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
+  },
+  signup: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    letterSpacing: 0.15,
   },
 });
