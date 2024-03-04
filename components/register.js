@@ -97,7 +97,7 @@ export default function RegisterScreen({ navigation }) {
       <TouchableOpacity
           onPress={() => navigation.navigate('Login')}
           style={{ marginTop: 'auto' }}>
-          <Text style={styles.signup}>
+          <Text style={styles.returnToLogin}>
             Click Here to{' '}
             <Text style={{ textDecorationLine: 'underline' }}>Return To Login</Text>
           </Text>
@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: '#ffffff',
-    marginBottom: 20,
+    marginTop: 80,
+    marginBottom: 35,
     textAlign: 'center',
   },
   heading: {
@@ -155,11 +156,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
-  signup: {
+  returnToLogin: {
     fontSize: 12,
     fontWeight: '600',
     color: '#FFFFFF',
     textAlign: 'center',
     letterSpacing: 0.15,
+    marginBottom: 40,
   },
 });
