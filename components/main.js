@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, View } from 'react-native';
 
-const MainPage = () => {
+export default function MainPage ({ navigation }) {
   const [formData, setFormData] = useState({
     steps: '',
-    pushUps: '',
+    pushups: '',
     sitUps: '',
     squats: '',
     lunges: '',
@@ -40,7 +40,7 @@ const MainPage = () => {
           />
         </View>
       ))}
-      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+      <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.button}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -86,5 +86,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default MainPage;
