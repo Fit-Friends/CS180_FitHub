@@ -3,7 +3,7 @@ from users.models import User
 # Create your models here.
 #profile class
 class Profile(models.Model):
-     id_user = models.IntegerField()
+     id_user = models.IntegerField(primary_key = True)
      username = models.CharField(max_length=100)
      #friends list maybe?
      #profile picture portion

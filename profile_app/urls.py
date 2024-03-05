@@ -6,6 +6,6 @@ urlpatterns = [
     path('save-profile/', save_profile_data, name='save_profile'),
     path('change-image/', change_image, name='change_image'),
     path('change-name/', change_name, name='change_name'),
-    path('return-profile/', return_profile, name='return_profile')
+    path('return-profile/<int:index>', return_profile, name='return_profile')
     #may need to include upload
 ]
