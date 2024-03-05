@@ -1,3 +1,22 @@
-from django.test import TestCase
 
+from rest_framework.test import APITestCase
+from rest_framework import status
 # Create your tests here.
+
+class accountTest(APITestCase):
+    def test_account1(self):
+        response = self.client.post('/register/',{"email" : "sample@gmail.com","password1" : "qwer1245","password2" : "qwer1245"})
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+    def test_account2(self):
+        response = self.client.post('/register/',{"email" : "sample@gmail.com","password1" : "qwer1245","password2" : "qwer1245"})
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        response = self.client.post('/login/',{"email" : "sample@gmail.com","password" : "qwer1245"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_account2(self):
+        response = self.client.post('/register/',{"email" : "sample@gmail.com","password1" : "qwer1245","password2" : "qwer1245"})
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        response = self.client.post('/login/',{"email" : "sample@gmail.com","password" : "qwer1245"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = self.client.post('/getid',{"email" : "sample@gmail.com"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
