@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function ProfilePage({ navigation }) {
-  const [profileImage, setProfileImage] = useState('https://avatarfiles.alphacoders.com/336/336672.png'); // Default profile picture
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      // Request permission to access the device's photo gallery
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission required', 'To set a profile picture, you need to grant permission to access the photo gallery on your device');
+      }
+    })();
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
+      aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.cancelled) {
-      setProfileImage(result.uri);
+      setImage(result.assets[0].uri);
     }
   };
 
@@ -24,10 +34,14 @@ export default function ProfilePage({ navigation }) {
       <View style={styles.header}>
         <View style={styles.profile}>
           <TouchableOpacity onPress={pickImage}>
-            <Image
-              style={styles.profileImage}
-              source={{ uri: profileImage }}
-            />
+            {image ? (
+                <Image
+                  style={styles.profileImage}
+                  source={{ uri: image }}
+                />
+              ) : (
+                <Ionicons name="person-circle-outline" size={80} color="#ccc" />
+              )}
             <View style={styles.editIconContainer}>
               <Ionicons name="pencil" size={18} color="#fff" />
             </View>
