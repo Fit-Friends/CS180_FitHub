@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from Expo icons
 import axios from 'axios';
+
 
 export default function LoginScreen({ navigation }) {
   const [form, setForm] = useState({
@@ -9,6 +11,7 @@ export default function LoginScreen({ navigation }) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const handleInputChange = (name, value) => {
     setForm({
@@ -17,31 +20,34 @@ export default function LoginScreen({ navigation }) {
     });
   };
 
-  const handleLogin = async () => {
-  setIsLoading(true);
-  setError('');
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
-  try {
-    const response = await axios.post('http://seannas.myqnapcloud.com:7010/login/', {
+  const handleLogin = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await axios.post('http://seannas.myqnapcloud.com:7010/login/', {
         email: form.email,
         password: form.password,
-    });
+      });
 
-    console.log(response.data); 
-    if (response.status === 200) { 
+      console.log(response.data);
+      if (response.status === 200) {
         console.log('Login successful:', response.data);
-        navigation.navigate('Home'); 
-    } else {
+        navigation.navigate('Home');
+      } else {
         throw new Error('Login failed. Please try again.');
+      }
+    } catch (error) {
+      setError(error.response ? error.response.data.message : error.message);
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
     }
-} catch (error) {
-    setError(error.response ? error.response.data.message : error.message);
-    console.error('Login error:', error);
-} finally {
-    setIsLoading(false);
-}
-};
-
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#071525' }}>
@@ -59,21 +65,26 @@ export default function LoginScreen({ navigation }) {
             placeholderTextColor="#6b7280"
             style={styles.inputControl}
             value={form.email}
-            onChangeText={text => handleInputChange('email', text)}
+            onChangeText={(text) => handleInputChange('email', text)}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
           />
 
           <Text style={styles.Label}>Password</Text>
-          <TextInput
-            placeholder="*********"
-            placeholderTextColor="#6b7280"
-            style={styles.inputControl}
-            value={form.password}
-            onChangeText={text => handleInputChange('password', text)}
-            secureTextEntry={true}
-          />
+          <View style={styles.passwordInputContainer}>
+            <TextInput
+              placeholder="*********"
+              placeholderTextColor="#6b7280"
+              style={styles.passwordInput}
+              value={form.password}
+              onChangeText={(text) => handleInputChange('password', text)}
+              secureTextEntry={!showPassword} // Toggle secureTextEntry based on state
+            />
+            <TouchableOpacity onPress={toggleShowPassword} style={styles.eyeIcon}>
+              <Ionicons name={showPassword ? 'eye' : 'eye-off'} size={24} color="#6b7280" />
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.signin}>
           <TouchableOpacity onPress={handleLogin}>
@@ -159,5 +170,24 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     letterSpacing: 0.15,
+  },
+  passwordInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    marginTop: 8,
+  },
+  passwordInput: {
+    flex: 1,
+    fontWeight: '500',
+    color: '#222',
+    borderRadius: 12,
+    fontSize: 15,
+    height: 44,
+  },
+  eyeIcon: {
+    marginLeft: 8,
   },
 });
