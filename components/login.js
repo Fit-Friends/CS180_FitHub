@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from Expo icons
 import axios from 'axios';
-
+import UserContext from './UserContext';
 
 export default function LoginScreen({ navigation }) {
   const [form, setForm] = useState({
@@ -11,9 +11,11 @@ export default function LoginScreen({ navigation }) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false); 
   const [userId, setUserId] = useState(null);
   
+  const { setUser } = useContext(UserContext);
+
   const handleInputChange = (name, value) => {
     setForm({
       ...form,
@@ -40,9 +42,11 @@ export default function LoginScreen({ navigation }) {
         console.log('Login successful:', response.data);
           const idResponse = await axios.post('http://seannas.myqnapcloud.com:7010/getid', { "email": form.email });
           console.log('User ID fetched:', idResponse.data.id);
+
+          setUser({ userId: idResponse.data.id, email: form.email });
           navigation.navigate('Home', {
             screen: 'Main',
-            params: { userId: idResponse.data.id, email: form.email }, // Pass userId as a parameter
+            params: { userId: idResponse.data.id, email: form.email }, 
           });      
         } else {
         throw new Error('Login failed. Please try again.');
