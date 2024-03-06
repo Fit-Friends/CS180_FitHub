@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import UserContext from './UserContext'; // Import UserContext for accessing user data
 
 export default function ProfilePage({ navigation }) {
+  const { setUser } = useContext(UserContext); // Access setUser function from UserContext
+
   const [image, setImage] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [username, setUsername] = useState('user_name');
@@ -32,9 +35,16 @@ export default function ProfilePage({ navigation }) {
       setImage(result.assets[0].uri);
     }
   };
+
   // Function to save changes to backend or local storage if necessary:
   const saveChanges = () => {
     setEditMode(false); // Exit editing mode
+  };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    setUser({ userId: null, email: null }); // Setting user's email and userID to null after sign out.
+    navigation.navigate('Login'); // Navigate back to the login page after signing out
   };
 
   return (
@@ -95,6 +105,11 @@ export default function ProfilePage({ navigation }) {
         </TouchableOpacity>
       )}
       </View>
+      
+      {/* Logout Button */}
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Logout</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -194,6 +209,19 @@ const styles = StyleSheet.create({
     width: 250,
   },
   editButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    backgroundColor: 'red',
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center',
+    marginTop: 20,
+    width: 250,
+    alignSelf: 'center',
+  },
+  logoutButtonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
