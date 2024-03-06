@@ -1,30 +1,38 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
 import UserContext from './UserContext';
 
 export default function LeaderboardPage() {
     const { user } = useContext(UserContext);
-    const [leaderboardData, setLeaderboardData] = useState([]);
+    const [logs, setLogs] = useState(null);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchLeaderboardData = async () => {
-            try {
-                const response = await axios.get('http://seannas.myqnapcloud.com:7010/leaderboard');
-                if (response.status === 200) {
-                    setLeaderboardData(response.data);
-                } else {
-                    setError('Failed to fetch leaderboard data');
-                }
-            } catch (error) {
-                console.error('Error fetching leaderboard data:', error);
-                setError('An error occurred while fetching leaderboard data');
-            }
-        };
-
-        fetchLeaderboardData();
-    }, []);
+      const fetchLogsForAllUsers = async () => {
+          try {
+              const allLogs = [];
+              // Iterate over user IDs starting from 1
+              for (let i = 1; i <= 3; i++) { // Assuming there are 3 users
+                  const response = await axios.get(`http://seannas.myqnapcloud.com:7010/log/${i}`);
+                  if (response.status === 200) {
+                      // Concatenate logs for each user
+                      allLogs.push(...response.data);
+                  } else {
+                      setError('Failed to fetch logs');
+                      return; // Exit the loop if an error occurs
+                  }
+              }
+              // Set logs for all users
+              setLogs(allLogs);
+          } catch (error) {
+              console.error('Error fetching exercise logs:', error);
+              setError('An error occurred while fetching exercise logs');
+          }
+      };
+  
+      fetchLogsForAllUsers();
+  }, []);
 
     return (
         <ScrollView style={styles.container}>
@@ -32,15 +40,15 @@ export default function LeaderboardPage() {
             {error ? (
                 <Text style={styles.error}>{error}</Text>
             ) : (
-                <View style={styles.leaderboard}>
-                    {leaderboardData.map((userStats, index) => (
-                        <View key={index} style={styles.leaderboardEntry}>
-                            <Text style={styles.userId}>User ID: {index}</Text>
-                            <Text>Steps: {userStats.steps}</Text>
-                            <Text>Pushups: {userStats.pushups}</Text>
-                            <Text>Situps: {userStats.situps}</Text>
-                            <Text>Squats: {userStats.squats}</Text>
-                            <Text>Lunges: {userStats.lunges}</Text>
+                <View style={styles.logsContainer}>
+                    {logs && logs.map((log, index) => (
+                        <View key={index} style={styles.logEntry}>
+                            <Text style={styles.logText}>Date: {log.date}</Text>
+                            <Text style={styles.logText}>Steps: {log.steps}</Text>
+                            <Text style={styles.logText}>Pushups: {log.pushups}</Text>
+                            <Text style={styles.logText}>Situps: {log.situps}</Text>
+                            <Text style={styles.logText}>Squats: {log.squarts}</Text>
+                            <Text style={styles.logText}>Lunges: {log.lunges}</Text>
                         </View>
                     ))}
                 </View>
@@ -63,16 +71,17 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 16,
     },
-    leaderboard: {
-        marginTop: 10,
+    logsContainer: {
+        marginBottom: 20,
     },
-    leaderboardEntry: {
+    logEntry: {
         backgroundColor: '#f0f0f0',
         padding: 10,
         marginBottom: 10,
         borderRadius: 5,
     },
-    userId: {
-        fontWeight: 'bold',
+    logText: {
+        fontSize: 16,
+        lineHeight: 24,
     },
 });
