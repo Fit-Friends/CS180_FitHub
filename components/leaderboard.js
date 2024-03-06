@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
 import moment from 'moment'; // Ensure moment is installed
 
@@ -7,15 +7,17 @@ export default function LeaderboardPage() {
     const [logs, setLogs] = useState([]);
     const [error, setError] = useState('');
     const [sortedLogs, setSortedLogs] = useState({});
+    const [activeTimeframe, setActiveTimeframe] = useState('day');
+    const [activeExercise, setActiveExercise] = useState('steps');
 
     useEffect(() => {
         const fetchLogsForAllUsers = async () => {
             try {
                 const allLogs = [];
-                for (let i = 1; i <= 3; i++) { // Assuming there are 3 users
+                for (let i = 1; i <= 3; i++) { // Adjust this for the number of users
                     const response = await axios.get(`http://seannas.myqnapcloud.com:7010/log/${i}`);
                     if (response.status === 200) {
-                        allLogs.push(...response.data.map(log => ({ ...log, userId: i }))); // Add userId to each log
+                        allLogs.push(...response.data.map(log => ({ ...log, userId: i })));
                     } else {
                         setError('Failed to fetch logs');
                         return;
@@ -32,68 +34,81 @@ export default function LeaderboardPage() {
     }, []);
 
     useEffect(() => {
-        // Process logs to sum up exercises for each timeframe
-        const processLogs = () => {
-            const tempSortedLogs = {}; // Format: { [userId]: { [timeframe]: { steps: 0, pushups: 0, ... } } }
+      const processLogs = () => {
+          // Create a new object to store the summed logs
+          const tempSortedLogs = {};
 
-            logs.forEach(log => {
-                const userId = log.userId;
-                ['day', 'week', 'month', 'year'].forEach(timeframe => {
-                    const key = moment(log.date).startOf(timeframe).format();
-                    tempSortedLogs[userId] = tempSortedLogs[userId] || {};
-                    tempSortedLogs[userId][timeframe] = tempSortedLogs[userId][timeframe] || {};
-                    tempSortedLogs[userId][timeframe][key] = tempSortedLogs[userId][timeframe][key] || { steps: 0, pushups: 0, situps: 0, squarts: 0, lunges: 0 };
+          // Sum up exercises for each user and timeframe
+          logs.forEach(log => {
+              const userId = log.userId;
+              const timeframeKey = moment(log.date).startOf(activeTimeframe).format();
+              if (!tempSortedLogs[userId]) {
+                  tempSortedLogs[userId] = { steps: 0, pushups: 0, situps: 0, squarts: 0, lunges: 0 };
+              }
 
-                    // Sum up exercises
-                    tempSortedLogs[userId][timeframe][key].steps += log.steps;
-                    tempSortedLogs[userId][timeframe][key].pushups += log.pushups;
-                    tempSortedLogs[userId][timeframe][key].situps += log.situps;
-                    tempSortedLogs[userId][timeframe][key].squarts += log.squarts;
-                    tempSortedLogs[userId][timeframe][key].lunges += log.lunges;
-                });
-            });
+              // Sum the exercises
+              tempSortedLogs[userId].steps += log.steps;
+              tempSortedLogs[userId].pushups += log.pushups;
+              tempSortedLogs[userId].situps += log.situps;
+              tempSortedLogs[userId].squarts += log.squarts;
+              tempSortedLogs[userId].lunges += log.lunges;
+          });
 
-            setSortedLogs(tempSortedLogs);
-        };
+          // Update the state with the summed logs
+          setSortedLogs(tempSortedLogs);
+      };
 
         if (logs.length) {
             processLogs();
         }
-    }, [logs]);
+      }, [logs, activeTimeframe]); // Rerun when logs or activeTimeframe changes
 
-    // Rendering logic, including error handling and data display
+
+    
+
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Exercise Leaderboard</Text>
-            {error ? (
-                <Text style={styles.error}>{error}</Text>
-            ) : (
-                Object.entries(sortedLogs).map(([userId, timeframes]) =>
-                    <View key={userId} style={styles.userSection}>
-                        <Text style={styles.userTitle}>User ID: {userId}</Text>
-                        {Object.entries(timeframes).map(([timeframe, records]) =>
-                            <View key={timeframe} style={styles.timeframeSection}>
-                                <Text style={styles.timeframeTitle}>{timeframe.charAt(0).toUpperCase() + timeframe.slice(1)}</Text>
-                                {Object.entries(records).map(([date, record]) =>
-                                    <View key={date} style={styles.recordEntry}>
-                                        <Text style={styles.recordDate}>{moment(date).format('YYYY-MM-DD')}</Text>
-                                        <Text style={styles.recordText}>Steps: {record.steps}</Text>
-                                        <Text style={styles.recordText}>Pushups: {record.pushups}</Text>
-                                        <Text style={styles.recordText}>Situps: {record.situps}</Text>
-                                        <Text style={styles.recordText}>Squats: {record.squarts}</Text>
-                                        <Text style={styles.recordText}>Lunges: {record.lunges}</Text>
-                                    </View>
-                                )}
-                            </View>
-                        )}
+      <ScrollView style={styles.container}>
+          <Text style={styles.title}>Exercise Leaderboard</Text>
+          <View style={styles.filterContainer}>
+              <View style={styles.timeframeButtons}>
+                  {['day', 'week', 'month', 'year'].map(frame => (
+                      <TouchableOpacity
+                          key={frame}
+                          style={styles.buttonStyle(activeTimeframe, frame)}
+                          onPress={() => setActiveTimeframe(frame)}
+                      >
+                          <Text style={styles.buttonText}>{frame.charAt(0).toUpperCase() + frame.slice(1)}</Text>
+                      </TouchableOpacity>
+                  ))}
+              </View>
+              <View style={styles.exerciseButtons}>
+                  {['steps', 'pushups', 'situps', 'squarts', 'lunges'].map(exercise => (
+                      <TouchableOpacity
+                          key={exercise}
+                          style={styles.buttonStyle(activeExercise, exercise)}
+                          onPress={() => setActiveExercise(exercise)}
+                      >
+                          <Text style={styles.buttonText}>{exercise.charAt(0).toUpperCase() + exercise.slice(1)}</Text>
+                      </TouchableOpacity>
+                  ))}
+              </View>
+          </View>
+          {error ? (
+            <Text style={styles.error}>{error}</Text>
+        ) : (
+            Object.entries(sortedLogs).map(([userId, exercises]) => (
+                <View key={userId} style={styles.userSection}>
+                    <Text style={styles.userTitle}>User ID: {userId}</Text>
+                    <View style={styles.recordEntry}>
+                        <Text style={styles.recordText}>{activeExercise.charAt(0).toUpperCase() + activeExercise.slice(1)}: {exercises[activeExercise]}</Text>
                     </View>
-                )
-            )}
-        </ScrollView>
-    );
+                </View>
+            ))
+        )}
+      </ScrollView>
+  );
 }
 
-// You can use or modify your existing styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -104,9 +119,35 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
     },
-    error: {
-        color: 'red',
+    filterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+    timeframeButtons: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    exerciseButtons: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    buttonStyle: (active, type) => ([
+        styles.button,
+        active === type && styles.activeButton
+    ]),
+    buttonText: {
         fontSize: 16,
+    },
+    button: {
+        backgroundColor: '#f0f0f0',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        marginHorizontal: 5,
+        borderRadius: 5,
+    },
+    activeButton: {
+        backgroundColor: '#81A1C1',
     },
     userSection: {
         marginBottom: 20,
@@ -114,26 +155,27 @@ const styles = StyleSheet.create({
     userTitle: {
         fontSize: 20,
         fontWeight: 'bold',
+        marginBottom: 5,
     },
-    timeframeSection: {
-        marginBottom: 15,
-    },
-    timeframeTitle: {
-        fontSize: 18,
-        textDecorationLine: 'underline',
-    },
-    recordEntry: {
-        backgroundColor: '#f0f0f0',
-        padding: 10,
+    dateSection: {
         marginBottom: 10,
-        borderRadius: 5,
     },
     recordDate: {
         fontSize: 16,
         fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    recordEntry: {
+        backgroundColor: '#f0f0f0',
+        padding: 10,
+        borderRadius: 5,
     },
     recordText: {
         fontSize: 16,
         lineHeight: 24,
+    },
+    error: {
+        color: 'red',
+        fontSize: 16,
     },
 });
