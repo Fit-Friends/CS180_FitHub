@@ -153,14 +153,14 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
     },
     button: {
-        backgroundColor: '#075eec',
+        backgroundColor: '#81A1C1',
         paddingHorizontal: 15,
         paddingVertical: 10,
         marginHorizontal: 5,
         borderRadius: 5,
     },
     activeButton: {
-        backgroundColor: '#81A1C1',
+        backgroundColor: '#075eec',
     },
     userSection: {
         marginBottom: 20,
