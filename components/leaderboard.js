@@ -35,33 +35,42 @@ export default function LeaderboardPage() {
 
     useEffect(() => {
       const processLogs = () => {
+          // Get the start of the current timeframe
+          const now = moment();
+          const startOfTimeframe = now.startOf(activeTimeframe);
+  
           // Create a new object to store the summed logs
           const tempSortedLogs = {};
-
-          // Sum up exercises for each user and timeframe
+  
+          // Sum up exercises for each user within the active timeframe
           logs.forEach(log => {
+              const logDate = moment(log.date);
               const userId = log.userId;
-              const timeframeKey = moment(log.date).startOf(activeTimeframe).format();
-              if (!tempSortedLogs[userId]) {
-                  tempSortedLogs[userId] = { steps: 0, pushups: 0, situps: 0, squarts: 0, lunges: 0 };
+  
+              // Check if the log date falls within the current timeframe
+              if (logDate.isSameOrAfter(startOfTimeframe)) {
+                  if (!tempSortedLogs[userId]) {
+                      tempSortedLogs[userId] = { steps: 0, pushups: 0, situps: 0, squarts: 0, lunges: 0 };
+                  }
+  
+                  // Sum the exercises
+                  tempSortedLogs[userId].steps += log.steps;
+                  tempSortedLogs[userId].pushups += log.pushups;
+                  tempSortedLogs[userId].situps += log.situps;
+                  tempSortedLogs[userId].squarts += log.squarts;
+                  tempSortedLogs[userId].lunges += log.lunges;
               }
-
-              // Sum the exercises
-              tempSortedLogs[userId].steps += log.steps;
-              tempSortedLogs[userId].pushups += log.pushups;
-              tempSortedLogs[userId].situps += log.situps;
-              tempSortedLogs[userId].squarts += log.squarts;
-              tempSortedLogs[userId].lunges += log.lunges;
           });
-
+  
           // Update the state with the summed logs
           setSortedLogs(tempSortedLogs);
       };
-
-        if (logs.length) {
-            processLogs();
-        }
-      }, [logs, activeTimeframe]); // Rerun when logs or activeTimeframe changes
+  
+      if (logs.length) {
+          processLogs();
+      }
+  }, [logs, activeTimeframe]); // Rerun when logs or activeTimeframe changes
+  
 
 
     
@@ -112,12 +121,15 @@ export default function LeaderboardPage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        padding: 24,
+        backgroundColor: '#071525',
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        fontSize: 27,
+        fontWeight: '700',
+        color: '#FFFFFF',
         marginBottom: 20,
+        textAlign: 'center',
     },
     filterContainer: {
         flexDirection: 'row',
@@ -138,9 +150,10 @@ const styles = StyleSheet.create({
     ]),
     buttonText: {
         fontSize: 16,
+        color: '#FFFFFF',
     },
     button: {
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#075eec',
         paddingHorizontal: 15,
         paddingVertical: 10,
         marginHorizontal: 5,
@@ -151,19 +164,13 @@ const styles = StyleSheet.create({
     },
     userSection: {
         marginBottom: 20,
+        textAlign: 'center',
     },
     userTitle: {
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 5,
-    },
-    dateSection: {
-        marginBottom: 10,
-    },
-    recordDate: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5,
+        color: '#FFFFFF',
     },
     recordEntry: {
         backgroundColor: '#f0f0f0',
@@ -177,5 +184,6 @@ const styles = StyleSheet.create({
     error: {
         color: 'red',
         fontSize: 16,
+        textAlign: 'center',
     },
 });
