@@ -9,7 +9,7 @@ export default function ProfilePage({ navigation }) {
 
   const [image, setImage] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const [username, setUsername] = useState('user_name');
+  const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('Name');
   const [bio, setBio] = useState('Bio');
 
@@ -22,6 +22,15 @@ export default function ProfilePage({ navigation }) {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    // Extract username from user email
+    if (user && user.email) {
+      setUsername(user.email.split('@')[0]);
+    } else {
+      setUsername('Not available');
+    }
+  }, [user]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -64,14 +73,12 @@ export default function ProfilePage({ navigation }) {
               <Ionicons name="pencil" size={18} color="#fff" />
             </View>
           </View>
-          <View style={styles.userInfo}>
-    <Text style={styles.fullName}>{fullName}</Text>
-    <Text style={styles.bio}>{bio}</Text>
-    {/* Add these lines to display userId and email */}
-    <Text style={styles.userDetail}>User ID: {user.userId}</Text>
-    <Text style={styles.userDetail}>Email: {user.email}</Text>
-</View>
-
+          <View style={styles.usernameContainer}>
+            <Text style={styles.username}>@{username}</Text>
+          </View>
+          <View style={styles.userIdContainer}>
+            <Text style={styles.userId}>{user && user.userId ? `UserID: ${user.userId}` : 'ID: Not available'}</Text>
+          </View>
         </TouchableOpacity>
       </View>
       <View style={styles.userInfo}>
@@ -80,12 +87,6 @@ export default function ProfilePage({ navigation }) {
       </View>
       {editMode && (
         <View style={styles.editModeContainer}>
-          <TextInput
-            style={styles.input}
-            value={username}
-            onChangeText={setUsername}
-            placeholder="Enter Username"
-          />
           <TextInput
             style={styles.input}
             value={fullName}
@@ -156,6 +157,14 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  userIdContainer: {
+    marginTop: 5,
+  },
+  userId: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
   },
