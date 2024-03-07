@@ -70,6 +70,7 @@ export default function MainPage({ navigation, route }) {
                         value={formData[exercise.key]}
                         onChangeText={(text) => handleInputChange(exercise.key, text)}
                         placeholder="0"
+                        placeholderTextColor="#6b7280"
                     />
                 </View>
             ))}
@@ -100,10 +101,13 @@ const styles = StyleSheet.create({
     input: {
         width: 100, // Fixed width for the input
         borderWidth: 1,
-        borderColor: '#cccccc',
-        color: '#FFFFFF',
+        borderColor: '#071525',
+        color: '#000000',
+        backgroundColor: '#FFF',
         borderRadius: 5,
         padding: 10,
+        fontSize: 15,
+        fontWeight: 500,
         marginLeft: 10, // Space between label and input
     },
     button: {
