@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import UserContext from './UserContext'; // Import UserContext for accessing user data
 
 export default function ProfilePage({ navigation }) {
-  const { setUser } = useContext(UserContext); // Access setUser function from UserContext
+  const { user, setUser } = useContext(UserContext); // Access setUser function from UserContext
 
   const [image, setImage] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -64,9 +64,14 @@ export default function ProfilePage({ navigation }) {
               <Ionicons name="pencil" size={18} color="#fff" />
             </View>
           </View>
-          <View style={styles.usernameContainer}>
-            <Text style={styles.username}>{"@" + username}</Text>
-          </View>
+          <View style={styles.userInfo}>
+    <Text style={styles.fullName}>{fullName}</Text>
+    <Text style={styles.bio}>{bio}</Text>
+    {/* Add these lines to display userId and email */}
+    <Text style={styles.userDetail}>User ID: {user.userId}</Text>
+    <Text style={styles.userDetail}>Email: {user.email}</Text>
+</View>
+
         </TouchableOpacity>
       </View>
       <View style={styles.userInfo}>

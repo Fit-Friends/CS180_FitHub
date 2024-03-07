@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MainPage from './main';
 import LeaderboardPage from './leaderboard';
 import ProfilePage from './profile';
+import HistoryPage from './history';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,6 +34,16 @@ function HomeTabs() {
         component={LeaderboardPage}
         options={{
           tabBarLabel: 'Leaderboard',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="weight-lifter" color={color} size={size} />
+          ),
+        }}
+      />
+            <Tab.Screen
+        name="History"
+        component={HistoryPage}
+        options={{
+          tabBarLabel: 'History',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="weight-lifter" color={color} size={size} />
           ),
