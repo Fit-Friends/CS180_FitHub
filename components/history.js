@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
-import moment from 'moment'; // Ensure moment is installed
+import moment from 'moment'; 
 import UserContext from './UserContext';
 
 export default function HistoryPage() {
@@ -11,7 +11,7 @@ export default function HistoryPage() {
 
     useEffect(() => {
         const fetchLogsForCurrentUser = async () => {
-            if (!user.userId) return; // Ensure there is a user ID available
+            if (!user.userId) return; // Makes sure there is a user ID available
 
             try {
                 const response = await axios.get(`http://seannas.myqnapcloud.com:7010/log/${user.userId}`);
@@ -29,7 +29,7 @@ export default function HistoryPage() {
         fetchLogsForCurrentUser();
     }, [user.userId]);
 
-    // Rendering logic, including error handling and data display
+    
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>Exercise History</Text>
@@ -56,7 +56,7 @@ export default function HistoryPage() {
     );
 }
 
-// Update your styles if necessary
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

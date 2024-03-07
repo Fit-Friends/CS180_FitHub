@@ -9,7 +9,7 @@ export default function RegisterScreen({ navigation }) {
     password1: '',
     password2: '',
   });
-  const [isLoading, setIsLoading] = useState(false); // Added isLoading state
+  const [isLoading, setIsLoading] = useState(false); 
 
   const handleInputChange = (name, value) => {
     setFormData({

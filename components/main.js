@@ -44,11 +44,10 @@ export default function MainPage({ navigation, route }) {
             const response = await axios.post(`http://seannas.myqnapcloud.com:7010/log/`, postData);
 
             if (response.status === 200) {
-              // Use standard browser alert for web
               if (Platform.OS === 'web') {
-                  alert('Successfully logged your exercises!'); // Standard web alert
+                  alert('Successfully logged your exercises!'); 
               } else {
-                  Alert.alert('Success', 'Successfully logged your exercises!'); // Native mobile alert
+                  Alert.alert('Success', 'Successfully logged your exercises!'); 
               }
           } else {
               throw new Error('Failed to submit log');
@@ -56,14 +55,13 @@ export default function MainPage({ navigation, route }) {
       } catch (error) {
           console.error('Error submitting log:', error);
           if (Platform.OS === 'web') {
-              alert('An error occurred during submission'); // Standard web alert for error
+              alert('An error occurred during submission'); 
           } else {
-              Alert.alert('Error', 'An error occurred during submission'); // Native mobile alert for error
+              Alert.alert('Error', 'An error occurred during submission');
           }
       }
     };
 
-    // Remove anything after '@' symbol from email
     const formattedEmail = email ? email.split('@')[0] : 'Not available';
 
     return (
@@ -113,13 +111,13 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     label: {
-        flex: 1, // Take up as much space as possible
+        flex: 1, 
         fontSize: 16,
         fontWeight: 'bold',
         color: '#FFFFFF',
     },
     input: {
-        width: 100, // Fixed width for the input
+        width: 100, 
         borderWidth: 1,
         borderColor: '#071525',
         color: '#000000',
@@ -128,7 +126,7 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 15,
         fontWeight: '500',
-        marginLeft: 10, // Space between label and input
+        marginLeft: 10, 
     },
     button: {
         backgroundColor: '#007BFF',

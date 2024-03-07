@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from Expo icons
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import UserContext from './UserContext';
 
@@ -101,7 +101,7 @@ const showAlert = (title, message) => {
               style={styles.passwordInput}
               value={form.password}
               onChangeText={(text) => handleInputChange('password', text)}
-              secureTextEntry={!showPassword} // Toggle secureTextEntry based on state
+              secureTextEntry={!showPassword} 
             />
             <TouchableOpacity onPress={toggleShowPassword} style={styles.eyeIcon}>
               <Ionicons name={showPassword ? 'eye' : 'eye-off'} size={24} color="#6b7280" />

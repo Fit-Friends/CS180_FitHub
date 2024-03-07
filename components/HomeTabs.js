@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-// Import your own component pages
+
 import MainPage from './main';
 import LeaderboardPage from './leaderboard';
 import ProfilePage from './profile';
@@ -39,7 +39,7 @@ function HomeTabs() {
           ),
         }}
       />
-            <Tab.Screen
+      <Tab.Screen
         name="History"
         component={HistoryPage}
         options={{

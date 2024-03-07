@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import UserContext from './UserContext'; // Import UserContext for accessing user data
+import UserContext from './UserContext'; 
 
 export default function ProfilePage({ navigation }) {
-  const { user, setUser } = useContext(UserContext); // Access setUser function from UserContext
+  const { user, setUser } = useContext(UserContext); 
 
   const [image, setImage] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -15,7 +15,6 @@ export default function ProfilePage({ navigation }) {
 
   useEffect(() => {
     (async () => {
-      // Requesting permission to access photo gallery
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('Permission required', 'Please grant permission to access the photo gallery.');
@@ -24,7 +23,6 @@ export default function ProfilePage({ navigation }) {
   }, []);
 
   useEffect(() => {
-    // Extract username from user email
     if (user && user.email) {
       setUsername(user.email.split('@')[0]);
     } else {
@@ -45,15 +43,14 @@ export default function ProfilePage({ navigation }) {
     }
   };
 
-  // Function to save changes to backend or local storage if necessary:
   const saveChanges = () => {
-    setEditMode(false); // Exit editing mode
+    setEditMode(false);
   };
 
-  // Function to handle logout
+  
   const handleLogout = () => {
-    setUser({ userId: null, email: null }); // Setting user's email and userID to null after sign out.
-    navigation.navigate('Login'); // Navigate back to the login page after signing out
+    setUser({ userId: null, email: null }); 
+    navigation.navigate('Login');
   };
 
   return (
@@ -112,7 +109,7 @@ export default function ProfilePage({ navigation }) {
       )}
       </View>
       
-      {/* Logout Button */}
+      {}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>

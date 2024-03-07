@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
-import moment from 'moment'; // Ensure moment is installed
+import moment from 'moment'; 
 
 export default function LeaderboardPage() {
     const [logs, setLogs] = useState([]);
@@ -14,7 +14,7 @@ export default function LeaderboardPage() {
         const fetchLogsForAllUsers = async () => {
             try {
                 const allLogs = [];
-                for (let i = 1; i <= 3; i++) { // Adjust this for the number of users
+                for (let i = 1; i <= 3; i++) { 
                     const response = await axios.get(`http://seannas.myqnapcloud.com:7010/log/${i}`);
                     if (response.status === 200) {
                         allLogs.push(...response.data.map(log => ({ ...log, userId: i })));
@@ -35,19 +35,15 @@ export default function LeaderboardPage() {
 
     useEffect(() => {
       const processLogs = () => {
-          // Get the start of the current timeframe
           const now = moment();
           const startOfTimeframe = now.startOf(activeTimeframe);
   
-          // Create a new object to store the summed logs
           const tempSortedLogs = {};
   
-          // Sum up exercises for each user within the active timeframe
           logs.forEach(log => {
               const logDate = moment(log.date);
               const userId = log.userId;
   
-              // Check if the log date falls within the current timeframe
               if (logDate.isSameOrAfter(startOfTimeframe)) {
                   if (!tempSortedLogs[userId]) {
                       tempSortedLogs[userId] = { steps: 0, pushups: 0, situps: 0, squarts: 0, lunges: 0 };
@@ -62,19 +58,14 @@ export default function LeaderboardPage() {
               }
           });
   
-          // Update the state with the summed logs
           setSortedLogs(tempSortedLogs);
       };
   
       if (logs.length) {
           processLogs();
       }
-  }, [logs, activeTimeframe]); // Rerun when logs or activeTimeframe changes
+  }, [logs, activeTimeframe]);
   
-
-
-    
-
     return (
       <ScrollView style={styles.container}>
           <Text style={styles.title}>Exercise Leaderboard</Text>
