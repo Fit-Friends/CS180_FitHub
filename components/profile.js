@@ -117,77 +117,100 @@ export default function ProfilePage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#071525', // Dark background
+    backgroundColor: '#071525',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF', // White color for text
-    padding: 20,
-    textAlign: 'center',
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 30,
   },
-  filterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around', // Space out filter buttons
-    marginVertical: 10,
+  profile: {
+    alignItems: 'center',
   },
-  timeframeButtons: {
-    flexDirection: 'row',
-    backgroundColor: '#2A2E43', // Slightly lighter dark background for button group
-    borderRadius: 20, // Rounded corners
-    overflow: 'hidden', // Ensures child components (buttons) adhere to border radius
-  },
-  exerciseButtons: {
-    flexDirection: 'row',
-    backgroundColor: '#2A2E43',
-    borderRadius: 20,
+  profileImageContainer: {
+    position: 'relative',
+    borderRadius: 40,
     overflow: 'hidden',
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 80,
+  },
+  editIconContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: 12,
+    padding: 4,
+  },
+  usernameContainer: {
     marginTop: 10,
   },
-  buttonStyle: (active, type) => ([
-    {
-      backgroundColor: active === type ? '#4CAF50' : '#333A56', // Active buttons are green
-      paddingHorizontal: 15,
-      paddingVertical: 10,
-      alignItems: 'center',
-      justifyContent: 'center',
-    }
-  ]),
-  buttonText: {
-    fontSize: 16,
-    color: '#FFFFFF',
+  username: {
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#fff',
   },
-  userSection: {
-    backgroundColor: '#1F2235', // Slightly lighter than container for contrast
-    borderRadius: 10,
-    padding: 15,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    flexDirection: 'row', // Make user info horizontal
-    alignItems: 'center', // Center items vertically
-    justifyContent: 'space-between', // Space between user info and steps
+  userInfo: {
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
   },
-  userTitle: {
+  fullName: {
     fontSize: 18,
-    color: '#FFFFFF',
     fontWeight: 'bold',
+    marginTop: 10,
+    color: '#fff',
+    paddingBottom: 6,
   },
-  recordDate: {
-    fontSize: 16,
-    color: '#B2B5C1', // Lighter grey for less emphasis
-    marginBottom: 5,
+  bio: {
+    fontSize: 15,
+    color: '#fff',
   },
-  recordText: {
-    fontSize: 18,
-    color: '#FFFFFF', // White for important numbers
-    fontWeight: 'bold',
-  },
-  error: {
-    color: '#FF0000', // Bright red for errors
-    fontSize: 16,
-    textAlign: 'center',
+  editModeContainer: {
+    paddingHorizontal: 20,
     marginTop: 20,
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  saveButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  saveButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  editButtonContainer: {
+    width:'100%',
+    height: '30%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  editButton: {
+    backgroundColor: '#075EEC',
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center',
+    marginTop: 20,
+    width: 250,
+  },
+  editButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
   logoutButton: {
     backgroundColor: 'red',
@@ -203,4 +226,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
