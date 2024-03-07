@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, View, Alert } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, View, Alert, Platform } from 'react-native';
 import axios from 'axios'; // Ensure axios is imported
 
 export default function MainPage({ navigation, route }) {
@@ -44,14 +44,23 @@ export default function MainPage({ navigation, route }) {
             const response = await axios.post(`http://seannas.myqnapcloud.com:7010/log/`, postData);
 
             if (response.status === 200) {
-                Alert.alert('Success', 'Log submitted successfully');
-            } else {
-                Alert.alert('Error', 'Failed to submit log');
-            }
-        } catch (error) {
-            console.error('Error submitting log:', error);
-            Alert.alert('Error', 'An error occurred during submission');
-        }
+              // Use standard browser alert for web
+              if (Platform.OS === 'web') {
+                  alert('Successfully logged your exercises!'); // Standard web alert
+              } else {
+                  Alert.alert('Success', 'Successfully logged your exercises!'); // Native mobile alert
+              }
+          } else {
+              throw new Error('Failed to submit log');
+          }
+      } catch (error) {
+          console.error('Error submitting log:', error);
+          if (Platform.OS === 'web') {
+              alert('An error occurred during submission'); // Standard web alert for error
+          } else {
+              Alert.alert('Error', 'An error occurred during submission'); // Native mobile alert for error
+          }
+      }
     };
 
     // Remove anything after '@' symbol from email
