@@ -12,7 +12,6 @@ function App() {
 
   const [user, setUser] = useState({ userId: null, email: null });
 
-
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <NavigationContainer>

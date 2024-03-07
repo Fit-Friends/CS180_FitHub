@@ -11,8 +11,7 @@ export default function MainPage({ navigation, route }) {
         lunges: '',
     });
 
-    const [userEmail, setUserEmail] = useState('user@example.com'); // Use the logged-in user's email
-    const {userId, email} = route.params || {};
+    const { userId, email } = route.params || {};
 
     const exercises = [
         { key: 'steps', label: 'Steps' },
@@ -27,40 +26,41 @@ export default function MainPage({ navigation, route }) {
     };
 
     const handleSubmit = async () => {
-      if (!userId) {
-          Alert.alert('Error', 'User ID is required for submission and was not found.');
-          return;
-      }
-  
-      const postData = {
-          user_id: userId,
-          steps: formData.steps || '0',
-          pushups: formData.pushups || '0',
-          situps: formData.situps || '0',
-          squarts: formData.squats || '0',
-          lunges: formData.lunges || '0',
-      };
-  
-      try {
-          const response = await axios.post(`http://seannas.myqnapcloud.com:7010/log/`, postData);
-  
-          if (response.status === 200) {
-              Alert.alert('Success', 'Log submitted successfully');
-          } else {
-              Alert.alert('Error', 'Failed to submit log');
-          }
-      } catch (error) {
-          console.error('Error submitting log:', error);
-          Alert.alert('Error', 'An error occurred during submission');
-      }
-  };
-  
-  
+        if (!userId) {
+            Alert.alert('Error', 'User ID is required for submission and was not found.');
+            return;
+        }
+
+        const postData = {
+            user_id: userId,
+            steps: formData.steps || '0',
+            pushups: formData.pushups || '0',
+            situps: formData.situps || '0',
+            squarts: formData.squats || '0',
+            lunges: formData.lunges || '0',
+        };
+
+        try {
+            const response = await axios.post(`http://seannas.myqnapcloud.com:7010/log/`, postData);
+
+            if (response.status === 200) {
+                Alert.alert('Success', 'Log submitted successfully');
+            } else {
+                Alert.alert('Error', 'Failed to submit log');
+            }
+        } catch (error) {
+            console.error('Error submitting log:', error);
+            Alert.alert('Error', 'An error occurred during submission');
+        }
+    };
+
+    // Remove anything after '@' symbol from email
+    const formattedEmail = email ? email.split('@')[0] : 'Not available';
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-          <Text style = {styles.label}>User Email: {email ? email : 'Not available'}</Text>
-          <Text style = {styles.label}>User ID: {userId ? userId : 'Not available'}</Text>
+            <Text style={styles.welcomeMessageOne}>Welcome, {formattedEmail}!</Text>
+            <Text style={styles.welcomeMessageTwo}>Let's log in today's workout. Keep track of your workouts using your UserID: {userId}</Text>
             {exercises.map((exercise) => (
                 <View key={exercise.key} style={styles.inputGroup}>
                     <Text style={styles.label}>{exercise.label}</Text>
@@ -87,6 +87,17 @@ const styles = StyleSheet.create({
         paddingBottom: 500, // Extra padding at the bottom
         backgroundColor: '#071525',
     },
+    welcomeMessageOne: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+        marginBottom: 20,
+    },
+    welcomeMessageTwo: {
+        fontSize: 18,
+        color: '#FFFFFF',
+        marginBottom: 20,
+    },
     inputGroup: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -107,7 +118,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         fontSize: 15,
-        fontWeight: 500,
+        fontWeight: '500',
         marginLeft: 10, // Space between label and input
     },
     button: {
