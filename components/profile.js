@@ -5,11 +5,11 @@ import * as ImagePicker from 'expo-image-picker';
 import UserContext from './UserContext'; // Import UserContext for accessing user data
 
 export default function ProfilePage({ navigation }) {
-  const { setUser } = useContext(UserContext); // Access setUser function from UserContext
+  const { user, setUser } = useContext(UserContext); // Access setUser function from UserContext
 
   const [image, setImage] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const [username, setUsername] = useState('user_name');
+  const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('Name');
   const [bio, setBio] = useState('Bio');
 
@@ -22,6 +22,15 @@ export default function ProfilePage({ navigation }) {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    // Extract username from user email
+    if (user && user.email) {
+      setUsername(user.email.split('@')[0]);
+    } else {
+      setUsername('Not available');
+    }
+  }, [user]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -65,7 +74,10 @@ export default function ProfilePage({ navigation }) {
             </View>
           </View>
           <View style={styles.usernameContainer}>
-            <Text style={styles.username}>{"@" + username}</Text>
+            <Text style={styles.username}>@{username}</Text>
+          </View>
+          <View style={styles.userIdContainer}>
+            <Text style={styles.userId}>{user && user.userId ? `UserID: ${user.userId}` : 'ID: Not available'}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -151,6 +163,14 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  userIdContainer: {
+    marginTop: 5,
+  },
+  userId: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
   },
