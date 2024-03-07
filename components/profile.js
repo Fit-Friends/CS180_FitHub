@@ -89,12 +89,6 @@ export default function ProfilePage({ navigation }) {
         <View style={styles.editModeContainer}>
           <TextInput
             style={styles.input}
-            value={username}
-            onChangeText={setUsername}
-            placeholder="Enter Username"
-          />
-          <TextInput
-            style={styles.input}
             value={fullName}
             onChangeText={setFullName}
             placeholder="Enter Personal Name"
