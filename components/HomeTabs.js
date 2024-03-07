@@ -16,7 +16,7 @@ function HomeTabs() {
     <Tab.Navigator
       initialRouteName="Main"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63', 
+        tabBarActiveTintColor: '#075EEC', 
       }}
     >
       <Tab.Screen
@@ -45,7 +45,7 @@ function HomeTabs() {
         options={{
           tabBarLabel: 'History',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="weight-lifter" color={color} size={size} />
+            <MaterialCommunityIcons name="history" color={color} size={size} />
           ),
         }}
       />
