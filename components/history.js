@@ -33,13 +33,14 @@ export default function HistoryPage() {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>Exercise History</Text>
+            <Text style={styles.heading}>Welcome to your Exercise History! Below are all of the workout logs you've submitted through the app.</Text>
             {error ? (
                 <Text style={styles.error}>{error}</Text>
             ) : (
                 logs.length > 0 ? (
                     logs.map((log, index) => (
                         <View key={index} style={styles.logEntry}>
-                            <Text style={styles.logDate}>{moment(log.date).format('YYYY-MM-DD HH:mm')}</Text>
+                            <Text style={styles.logDate}>Date & Time of Log: {moment(log.date).format('YYYY-MM-DD HH:mm')}</Text>
                             <Text style={styles.logText}>Steps: {log.steps}</Text>
                             <Text style={styles.logText}>Pushups: {log.pushups}</Text>
                             <Text style={styles.logText}>Situps: {log.situps}</Text>
@@ -60,11 +61,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#071525',
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        fontSize: 27,
+        fontWeight: '700',
+        color: '#FFFFFF',
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    heading: {
+        fontSize: 21,
+        color: '#FFFFFF',
         marginBottom: 20,
+        textAlign: 'center', 
     },
     error: {
         color: 'red',
@@ -77,11 +87,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     logDate: {
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     logText: {
-        fontSize: 16,
-        lineHeight: 24,
+        fontSize: 18,
     },
 });
