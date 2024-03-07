@@ -92,8 +92,8 @@ export default function MainPage({ navigation, route }) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 20,
-        paddingBottom: 500, // Extra padding at the bottom
         backgroundColor: '#071525',
     },
     welcomeMessageOne: {
