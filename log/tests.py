@@ -13,24 +13,34 @@ class loggingTest(APITestCase):
         response = self.client.get('/log/1')
         self.assertEqual(len(response.data), 1)
     def test_log3(self):
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
+        for i in range(8):
+            response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
         #8 datas
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = self.client.get('/log/1')
         self.assertEqual(len(response.data), 7)#response with 7 datas
     def test_log4(self):
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
-        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
+        for i in range(4):
+            response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
         #4 datas
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = self.client.get('/log/1')
         self.assertEqual(len(response.data), 4)#response with 4 datas
+    def test_log5(self):
+        response = self.client.post('/log/',{"user_id" : "abc","steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_log6(self):
+        response = self.client.post('/log/',{"user_id" : 1,"steps" : "abc","pushups" : 100,"situps": 100,"squarts": 100,"lunges":100})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_log7(self):
+        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : "abc","situps": 100,"squarts": 100,"lunges":100})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_log8(self):
+        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": "abc","squarts": 100,"lunges":100})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_log9(self):
+        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": "abc","lunges":100})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_log10(self):
+        response = self.client.post('/log/',{"user_id" : 1,"steps" : 100,"pushups" : 100,"situps": 100,"squarts": 100,"lunges":"abc"})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
