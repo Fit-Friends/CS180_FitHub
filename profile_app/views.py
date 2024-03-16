@@ -22,13 +22,14 @@ from .serializers import ProfileSerializer
 # @permission_classes([IsAuthenticated])
 def save_profile_data(request):
     # profile = request.user.profile
-    # serializer = ProfileSerializer(data = {
-    #     "id_user":request.data['id_user'],
-    #     "username": request.data['username'],
-    #     "profile_pic": request.data['profile_pic']
-    #     })
-    serializer = ProfileSerializer(data = request.data)
+    serializer = ProfileSerializer(data = {
+        "id_user":request.data['id_user'],
+        "username": request.data['username'],
+        "profile_pic": request.data['profile_pic']
+        })
+    # serializer = ProfileSerializer(data = request.data)
     if serializer.is_valid():
+        
         serializer.save()
         return JsonResponse(serializer.data, status=200) #JsonResponse
     return JsonResponse(serializer.errors, status=400)
